@@ -14,10 +14,22 @@ expedition <- function(CSV) {
 	MostPosts <- CSV[2:6, 6:36] # 얘네를 어떡하지 / 5행 31열
 	MonthlyParameters <- CSV[8:11, 6:36] # 얘네를 어떡하지 / 4행 31열
 	
-	MonthlyIncome <- as.vector(MonthlyParameters[3:3, 1:31])
+	MonthlyIncome <- MonthlyParameters[3:3, 1:31]
 	
-	for (cell in MonthlyIncome) {print(gsub(FilteryWord3, "", cell))}
+	NewMonthlyIncome <- c()
 	
+	# 데이터에 NA 끼어있으면 그냥 다 결측치로 처리가 되는 문제
+	for (cell in MonthlyIncome) {
+		tmp <- as.numeric(gsub(FilteryWord3, "", cell))
+		
+		if (is.na(tmp)) {
+			next
+		} else {
+			NewMonthlyIncome <- c(NewMonthlyIncome, tmp)
+		}
+	}
+	
+	SumNewMonthlyIncome <- sum(NewMonthlyIncome)
 	
 	print("인덱싱을 통해 정보 확인 : 모든 게시물, 최다 조회 게시물, 게시물 속성 정보, 종합 수익")
 }
