@@ -1,14 +1,14 @@
-print("Hello, goorm!")
-print("")
+print("Interprter OK")
 
+### 
 # Preparation
 csv <- read.table("ts.csv", header=T, sep=',')
-FilteryWord1 <- "광고노출수 : "
-FilteryWord2 <- "광고클릭수 : "
-FilteryWord3 <- "예상 수익 : "
-# gsub("광고노출수 : |광고클릭수 : |예상수익 :", "", ) ?
-#
 
+Filtering <- function(text) {
+	filtered <- gsub("광고노출수 : |광고클릭수 : |예상 수익 :", "", text)
+	return(filtered)
+}
+###
 expedition <- function(CSV) {
 	MonthlyPosts <- CSV[2:9, 1:1] # 일단 행렬인데 열 벡터 / 왜 NULL ?
 	MostPosts <- CSV[2:6, 6:36] # 얘네를 어떡하지 / 5행 31열
@@ -20,7 +20,7 @@ expedition <- function(CSV) {
 	
 	# 데이터에 NA 끼어있으면 그냥 다 결측치로 처리가 되는 문제
 	for (cell in MonthlyIncome) {
-		tmp <- as.numeric(gsub(FilteryWord3, "", cell))
+		tmp <- as.numeric(Filtering(cell))
 		
 		if (is.na(tmp)) {
 			next
